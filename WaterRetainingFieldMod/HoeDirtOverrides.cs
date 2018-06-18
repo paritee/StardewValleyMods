@@ -15,7 +15,7 @@ namespace WaterRetainingFieldMod
 
         public static bool DayUpdatePrefix(HoeDirt __instance, ref int __state)
         {
-            __state = __instance.state.Value;
+            __state = __instance.state;
             return true;
         }
 
@@ -23,17 +23,17 @@ namespace WaterRetainingFieldMod
         {
             if (environment is Farm farm)
             {
-                if (__state == 1 && __instance.fertilizer.Value == 370 || __instance.fertilizer.Value == 371)
+                if (__state == 1 && __instance.fertilizer == 370 || __instance.fertilizer == 371)
                 {
                     if (TileLocationState.ContainsKey(tileLocation))
                     {
-                        __instance.state.Value = TileLocationState[tileLocation];
+                        __instance.state = TileLocationState[tileLocation];
                         return;
                     }
                     else
                     {
-                        TileLocationState[tileLocation] = __instance.state.Value;
-                        AddStateAdjacentFertilizedTiles(farm, tileLocation, __instance.state.Value, __instance.fertilizer.Value);
+                        TileLocationState[tileLocation] = __instance.state;
+                        AddStateAdjacentFertilizedTiles(farm, tileLocation, __instance.state, __instance.fertilizer);
                     }
                 }
             }
@@ -52,7 +52,7 @@ namespace WaterRetainingFieldMod
             {
                 if (!TileLocationState.ContainsKey(adjacentTileLocation) && farm.terrainFeatures.ContainsKey(adjacentTileLocation) && farm.terrainFeatures[adjacentTileLocation] is HoeDirt hoeDirt)
                 {
-                    if (hoeDirt.state.Value == 1 && hoeDirt.fertilizer.Value == fertilizer)
+                    if (hoeDirt.state == 1 && hoeDirt.fertilizer == fertilizer)
                     {
                         TileLocationState[adjacentTileLocation] = stateValue;
                         AddStateAdjacentFertilizedTiles(farm, adjacentTileLocation, stateValue, fertilizer);

@@ -23,7 +23,7 @@ namespace WaterRetainingFieldMod
                 ,(l)=>
                 {
                     return !Game1.player.mailReceived.Contains(l.Id) &&
-                           (Game1.player.farmingLevel.Value >= 4 || SDate.Now() >= new SDate(15, "spring", 1));
+                           (Game1.player.farmingLevel >= 4 || SDate.Now() >= new SDate(15, "spring", 1));
                 },(l)=> Game1.player.mailReceived.Add(l.Id)
             );
             MailDao.SaveLetter(letter);
