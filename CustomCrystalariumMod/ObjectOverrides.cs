@@ -28,17 +28,16 @@ namespace CustomCrystalariumMod
             return true;
         }
 
-        public static bool PerformObjectDropInAction(ref Object __instance, ref Item dropInItem, ref bool probe, ref Farmer who, ref bool __result)
+        public static bool PerformObjectDropInAction(ref Object __instance, ref Item dropIn, ref bool probe, ref StardewValley.Farmer who, ref bool __result)
         {
-            if (dropInItem is Object object1)
+            if (dropIn is Object object1)
             {
-                if (!(__instance.heldObject.Value != null && !__instance.Name.Equals("Recycling Machine") &&
-                      !__instance.Name.Equals("Crystalarium") ||object1 != null && (bool) (object1.bigCraftable.Value)))
+                if (!(__instance.heldObject != null && !__instance.Name.Equals("Recycling Machine") &&
+                      !__instance.Name.Equals("Crystalarium") ||object1 != null && (bool) (object1.bigCraftable)))
                 {
                     if (__instance.Name.Equals("Crystalarium"))
                     {
-                        if ((__instance.heldObject.Value == null || __instance.heldObject.Value.ParentSheetIndex != object1.ParentSheetIndex) 
-                             && (__instance.heldObject.Value == null || __instance.MinutesUntilReady > 0))
+                        if ((__instance.heldObject == null || __instance.heldObject.ParentSheetIndex != object1.ParentSheetIndex))
                         { 
                             int minutesUntilReady;
                             if (DataLoader.CrystalariumData.ContainsKey(object1.ParentSheetIndex))
@@ -53,16 +52,16 @@ namespace CustomCrystalariumMod
                             {
                                 return true;
                             }
-                            if ((bool)__instance.bigCraftable.Value && !probe &&
-                                (object1 != null && __instance.heldObject.Value == null))
+                            if ((bool)__instance.bigCraftable && !probe &&
+                                (object1 != null && __instance.heldObject == null))
                             {
                                 __instance.scale.X = 5f;
                             }
-                            __instance.heldObject.Value = (Object)object1.getOne();
+                            __instance.heldObject = (Object)object1.getOne();
                             if (!probe)
                             {
-                                who.currentLocation.playSound("select");
-                                __instance.MinutesUntilReady = minutesUntilReady;
+                                Game1.playSound("select");
+                                __instance.minutesUntilReady = minutesUntilReady;
                             }
                             __result = true;
                             return false;
