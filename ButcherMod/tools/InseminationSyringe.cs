@@ -177,9 +177,9 @@ namespace AnimalHusbandryMod.tools
 
             if (this._animal != null)
             {
-                Animal? foundAnimal = AnimalExtension.GetAnimalFromType(this._animal.type.Value);
+                string foundAnimal = AnimalExtension.GetAnimalFromType(this._animal.type.Value);
                 who.Stamina -= ((float) 4f - (float)who.FarmingLevel * 0.2f);
-                int daysUtillBirth = (DataLoader.AnimalData.getAnimalItem((Animal)foundAnimal) as ImpregnatableAnimalItem).MinimumDaysUtillBirth;
+                int daysUtillBirth = (DataLoader.AnimalData.getAnimalItem(foundAnimal) as ImpregnatableAnimalItem).MinimumDaysUtillBirth;
                 PregnancyController.AddPregancy(new PregnancyItem(this._animal.myID.Value, daysUtillBirth, this._animal.allowReproduction.Value));
                 this._animal.allowReproduction.Value = false;
                 --this.attachments[0].Stack;
@@ -210,8 +210,8 @@ namespace AnimalHusbandryMod.tools
         {
             switch (AnimalExtension.GetAnimalFromType(animal.type.Value))
             {
-                case Animal.Cow:
-                case Animal.Goat:                    
+                case "Cow":
+                case "Goat":                    
                         return animal.defaultProduceIndex.Value == @object.ParentSheetIndex || animal.deluxeProduceIndex.Value == @object.ParentSheetIndex;                    
                 default:                    
                         return animal.defaultProduceIndex.Value == @object.ParentSheetIndex;
@@ -222,9 +222,9 @@ namespace AnimalHusbandryMod.tools
         {
             switch (AnimalExtension.GetAnimalFromType(animal.type.Value))
             {
-                case Animal.Duck:
-                case Animal.Chicken:
-                case Animal.Dinosaur:
+                case "Duck":
+                case "Chicken":
+                case "Dinosaur":
                     return true;
                 default:
                     return false;

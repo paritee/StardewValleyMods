@@ -1,10 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel;
-using System.Linq;
-using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
 using AnimalHusbandryMod.common;
 
 namespace AnimalHusbandryMod.meats
@@ -20,11 +15,10 @@ namespace AnimalHusbandryMod.meats
             return attribute == null ? value.ToString() : attribute.Description;
         }
 
-        public static string GetObjectString(this Meat value)
+        public static string GetObjectString(MeatItem meatItem)
         {
-            var meatItem = DataLoader.MeatData.getMeatItem(value);
             var i18n = DataLoader.i18n;
-            return String.Format("{0}/{1}/{2}/Basic -14/{3}/{4}", value.GetDescription(), meatItem.Price, meatItem.Edibility, i18n.Get($"Meat.{value}.Name"), i18n.Get($"Meat.{value}.Description"));
+            return String.Format("{0}/{1}/{2}/Basic -14/{3}/{4}", meatItem.Name, meatItem.Price, meatItem.Edibility, i18n.Get($"Meat.{meatItem.Name}.Name"), i18n.Get($"Meat.{meatItem.Name}.Description"));
         }        
     }
 }

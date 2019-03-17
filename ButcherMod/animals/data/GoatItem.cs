@@ -8,6 +8,7 @@ namespace AnimalHusbandryMod.animals.data
 {
     public class GoatItem : AnimalItem, TreatItem, ImpregnatableAnimalItem
     {
+        public string Name { get; set; }
         public int MinimalNumberOfMeat { get; set; }
         public int MaximumNumberOfMeat { get; set; }
         public int MinimumDaysBetweenTreats { get; set; }
@@ -16,6 +17,7 @@ namespace AnimalHusbandryMod.animals.data
 
         public GoatItem()
         {
+            Name = "Goat";
             MinimalNumberOfMeat = 3;
             MaximumNumberOfMeat = 8;
             MinimumDaysBetweenTreats = 4;

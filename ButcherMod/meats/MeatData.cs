@@ -1,50 +1,36 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using static AnimalHusbandryMod.meats.MeatExtension;
 
 namespace AnimalHusbandryMod.meats
 {
     public class MeatData
     {
-        public MeatItem Beef;
-        public MeatItem Pork;
-        public MeatItem Chicken;
-        public MeatItem Duck;
-        public MeatItem Rabbit;
-        public MeatItem Mutton;
+        public List<MeatItem> Meat;
 
         public MeatData()
         {
-            Beef = new MeatItem(100,15);
-            Pork = new MeatItem(1250, 30);
-            Chicken = new MeatItem(250, 15);
-            Duck = new MeatItem(800, 20);
-            Rabbit = new MeatItem(2500, 20);
-            Mutton = new MeatItem(650, 20);
+            this.Meat = new List<MeatItem>()
+            {
+                new MeatItem("Beef", 639, 100, 15),
+                new MeatItem("Pork", 640, 1250, 30),
+                new MeatItem("Chicken", 641, 250, 15),
+                new MeatItem("Duck", 642, 800, 20),
+                new MeatItem("Rabbit", 643, 2500, 20),
+                new MeatItem("Mutton", 644, 650, 20),
+            };
         }
 
-        public MeatItem getMeatItem(Meat meatEnum)
+        public MeatItem getMeatItem(int meatIndex)
         {
-            switch (meatEnum)
+            MeatItem item = this.Meat.FirstOrDefault(o => o.Index == meatIndex);
+
+            if (item == null)
             {
-                case Meat.Beef:
-                    return Beef;
-                case Meat.Pork:
-                    return Pork;
-                case Meat.Chicken:
-                    return Chicken;
-                case Meat.Duck:
-                    return Duck;
-                case Meat.Rabbit:
-                    return Rabbit;
-                case Meat.Mutton:
-                    return Mutton;
-                default:
-                    throw new ArgumentException("Invalid Meat");
+                throw new ArgumentException("Invalid Meat");
             }
+
+            return item;
         }
     }
 }

@@ -8,6 +8,7 @@ namespace AnimalHusbandryMod.animals.data
 {
     public interface AnimalItem 
     {
+        string Name { get; set; }
         int MinimalNumberOfMeat { get; set; }
         int MaximumNumberOfMeat { get; set; }
     }

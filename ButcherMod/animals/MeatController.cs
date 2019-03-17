@@ -35,31 +35,31 @@ namespace AnimalHusbandryMod.animals
         {
             List<Item> itemsToReturn = new List<Item>();
 
-            Animal? foundAnimal = AnimalExtension.GetAnimalFromType(farmAnimal.type.Value);
-            return DataLoader.AnimalData.getAnimalItem((Animal)foundAnimal);
+            string foundAnimal = AnimalExtension.GetAnimalFromType(farmAnimal.type.Value);
+            return DataLoader.AnimalData.getAnimalItem(foundAnimal);
         }
 
         public static List<Item> CreateMeat(FarmAnimal farmAnimal)
         {
             List<Item> itemsToReturn = new List<Item>();
 
-            Animal animal;
-            Animal? foundAnimal = AnimalExtension.GetAnimalFromType(farmAnimal.type.Value);
+            string animal;
+            string foundAnimal = AnimalExtension.GetAnimalFromType(farmAnimal.type.Value);
             if (foundAnimal == null) 
             {
                 return itemsToReturn;
             }
             else
             {
-                animal = (Animal)foundAnimal;
+                animal = foundAnimal;
             }
 
             AnimalItem animalItem;
-            Meat meat;
+            int meatIndex;
             int minimumNumberOfMeat;
             int maxNumberOfMeat;
             int meatPrice;
-            if (animal == Animal.Dinosaur)
+            if (animal == "Dinosaur")
             {
                 if (DataLoader.ModConfig.DisableMeatFromDinosaur)
                 {
@@ -67,21 +67,21 @@ namespace AnimalHusbandryMod.animals
                 }
                 animalItem = null;
                 var meats = Enum.GetValues(typeof(Meat));
-                meat = ((Meat)meats.GetValue(new Random((int)farmAnimal.myID.Value).Next(meats.Length)));
+                meatIndex = (int)meats.GetValue(new Random((int)farmAnimal.myID.Value).Next(meats.Length));
                 minimumNumberOfMeat = 1;
-                meatPrice = DataLoader.MeatData.getMeatItem(meat).Price;
+                meatPrice = DataLoader.MeatData.getMeatItem(meatIndex).Price;
                 maxNumberOfMeat = 1 + (1300 / meatPrice);
             }
             else
             {
                 animalItem = DataLoader.AnimalData.getAnimalItem(animal);
-                meat = animal.GetMeat();
+                meatIndex = AnimalExtension.GetMeat(animal);
                 minimumNumberOfMeat = animalItem.MinimalNumberOfMeat;
-                meatPrice = DataLoader.MeatData.getMeatItem(meat).Price;
+                meatPrice = DataLoader.MeatData.getMeatItem(meatIndex).Price;
                 maxNumberOfMeat = animalItem.MaximumNumberOfMeat;
                 
             }
-            var debrisType = (int)meat;
+            var debrisType = (int)meatIndex;
             var numberOfMeat = minimumNumberOfMeat;
 
             numberOfMeat += (int)((farmAnimal.getSellPrice() / ((double)farmAnimal.price.Value) - 0.3) * (maxNumberOfMeat - minimumNumberOfMeat));
@@ -132,7 +132,7 @@ namespace AnimalHusbandryMod.animals
                 itemsToReturn.Add(newItem);
             }
 
-            if ((animal == Animal.Sheep || animal == Animal.Rabbit))
+            if ((animal == "Sheep" || animal == "Rabbit"))
             {
                 WoolAnimalItem woolAnimalItem = (WoolAnimalItem)animalItem;
                 int numberOfWools = farmAnimal.currentProduce.Value > 0 ? 1 : 0;
@@ -146,7 +146,7 @@ namespace AnimalHusbandryMod.animals
                 }
             }
 
-            if (animal == Animal.Duck)
+            if (animal == "Duck")
             {
                 FeatherAnimalItem featherAnimalItem = (FeatherAnimalItem)animalItem;
                 int numberOfFeather = (int)(featherAnimalItem.MinimumNumberOfFeatherChances + (farmAnimal.getSellPrice() / ((double)farmAnimal.price.Value) - 0.3) * (featherAnimalItem.MaximumNumberOfFeatherChances - featherAnimalItem.MinimumNumberOfFeatherChances));
@@ -165,7 +165,7 @@ namespace AnimalHusbandryMod.animals
                 }
             }
 
-            if (animal == Animal.Rabbit)
+            if (animal == "Rabbit")
             {
                 FeetAnimalItem feetAnimalItem = (FeetAnimalItem)animalItem;
                 int numberOfFeet = (int)(feetAnimalItem.MinimumNumberOfFeetChances + (farmAnimal.getSellPrice() / ((double)farmAnimal.price.Value) - 0.3) * (feetAnimalItem.MaximumNumberOfFeetChances - feetAnimalItem.MinimumNumberOfFeetChances));

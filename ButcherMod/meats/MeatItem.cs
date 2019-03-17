@@ -8,11 +8,15 @@ namespace AnimalHusbandryMod.meats
 {
     public class MeatItem
     {
+        public string Name;
+        public int Index;
         public int Price;
         public int Edibility;
 
-        public MeatItem(int price, int edibility)
+        public MeatItem(string name, int index, int price, int edibility)
         {
+            Name = name;
+            Index = index;
             Price = price;
             Edibility = edibility;
         }

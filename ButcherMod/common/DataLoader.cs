@@ -9,8 +9,6 @@ using AnimalHusbandryMod.recipes;
 using AnimalHusbandryMod.tools;
 using Microsoft.Xna.Framework.Graphics;
 using StardewModdingAPI;
-using StardewValley;
-using Object = StardewValley.Object;
 
 namespace AnimalHusbandryMod.common
 {
@@ -90,16 +88,16 @@ namespace AnimalHusbandryMod.common
             if (asset.AssetNameEquals("Data\\ObjectInformation"))
             {
                 var data = asset.AsDictionary<int, string>().Data;
+
                 //MEAT
+
                 MeatData = DataLoader.Helper.Data.ReadJsonFile<MeatData>("data\\meats.json") ?? new MeatData();
                 DataLoader.Helper.Data.WriteJsonFile("data\\meats.json", MeatData);
 
-                data[(int)Meat.Beef] = Meat.Beef.GetObjectString();
-                data[(int)Meat.Pork] = Meat.Pork.GetObjectString();
-                data[(int)Meat.Chicken] = Meat.Chicken.GetObjectString();
-                data[(int)Meat.Duck] = Meat.Duck.GetObjectString();
-                data[(int)Meat.Rabbit] = Meat.Rabbit.GetObjectString();
-                data[(int)Meat.Mutton] = Meat.Mutton.GetObjectString();
+                foreach (MeatItem meat in MeatData.Meat)
+                {
+                    data[meat.Index] = MeatExtension.GetObjectString(meat);
+                }
 
                 //COOKING
 

@@ -1,6 +1,8 @@
-﻿using AnimalHusbandryMod.meats;
-
+﻿using AnimalHusbandryMod.common;
+using AnimalHusbandryMod.meats;
+using StardewValley;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -9,24 +11,35 @@ namespace AnimalHusbandryMod.animals
 {
     public static class AnimalExtension
     {
-        public static Meat GetMeat(this Animal value)
+        public static int GetMeat(string animal)
         {
-            var field = value.GetType().GetField(value.ToString());
+            Dictionary<string, string> data = Game1.content.Load<Dictionary<string, string>>(Path.Combine("Data", "FarmAnimals"));
 
-            var attribute = System.Attribute.GetCustomAttribute(field, typeof(MeatAttribute)) as MeatAttribute;
+            if (!data.ContainsKey(animal))
+            {
+                return (int)Meat.Beef;
+            }
 
-            return attribute.Meat;
+            string[] values = data[animal].Split('/');
+
+            if (!int.TryParse(values[23], out int index))
+            {
+                return (int)Meat.Beef;
+            }
+
+            return index;
         }
 
-        public static Animal? GetAnimalFromType(string type)
+        public static string GetAnimalFromType(string type)
         {
-            foreach (Animal animal in System.Enum.GetValues(typeof(Animal)))
+            foreach (string key in DataLoader.AnimalData.Livestock.Keys)
             {
-                if (type.Contains(animal.ToString()))
+                if (type.Contains(key))
                 {
-                    return animal;
+                    return key;
                 }
             }
+
             return null;
         }
     }

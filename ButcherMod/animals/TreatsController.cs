@@ -1,11 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using AnimalHusbandryMod.animals.data;
 using AnimalHusbandryMod.common;
-using AnimalHusbandryMod.farmer;
 using StardewModdingAPI.Utilities;
 using StardewValley;
 using Object = StardewValley.Object;
@@ -28,15 +24,8 @@ namespace AnimalHusbandryMod.animals
 
         public static bool IsLikedTreat(int id)
         {
-            return DataLoader.AnimalData.Chicken.LikedTreats.Contains(id)
-                || DataLoader.AnimalData.Duck.LikedTreats.Contains(id)
-                || DataLoader.AnimalData.Rabbit.LikedTreats.Contains(id)
-                || DataLoader.AnimalData.Cow.LikedTreats.Contains(id)
-                || DataLoader.AnimalData.Goat.LikedTreats.Contains(id)
-                || DataLoader.AnimalData.Sheep.LikedTreats.Contains(id)
-                || DataLoader.AnimalData.Pig.LikedTreats.Contains(id)
-                || DataLoader.AnimalData.Pet.LikedTreats.Contains(id)
-                ;
+            return DataLoader.AnimalData.Livestock.Any(o => ((TreatItem)o.Value).LikedTreats.Contains(id))
+                || DataLoader.AnimalData.Pet.LikedTreats.Contains(id);
         }
 
         public static bool IsLikedTreatPet(int itemId)
@@ -115,8 +104,8 @@ namespace AnimalHusbandryMod.animals
 
         public static TreatItem GetTreatItem(FarmAnimal farmAnimal)
         {
-            Animal? foundAnimal = AnimalExtension.GetAnimalFromType(farmAnimal.type.Value);
-            return DataLoader.AnimalData.getAnimalItem((Animal)foundAnimal) as TreatItem;
+            string foundAnimal = AnimalExtension.GetAnimalFromType(farmAnimal.type.Value);
+            return DataLoader.AnimalData.getAnimalItem(foundAnimal) as TreatItem;
         }
 
     }
